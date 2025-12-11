@@ -1,0 +1,121 @@
+/* Custom Styles & Utilities */
+body {
+  background-color: #050505;
+  color: #f3f3f3;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+/* Outlined Text Utility */
+.text-stroke {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+  color: transparent;
+}
+.text-stroke-gold {
+  -webkit-text-stroke: 1px #d4af37;
+  color: transparent;
+}
+
+/* Hamburger Animation */
+.hamburger .line {
+  transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+.hamburger.active .line-1 {
+  transform: rotate(45deg) translate(5px, 5px);
+  background-color: #d4af37;
+}
+.hamburger.active .line-2 {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+.hamburger.active .line-3 {
+  transform: rotate(-45deg) translate(5px, -6px);
+  background-color: #d4af37;
+}
+
+/* Mobile Menu z-index */
+#mobile-menu {
+  z-index: 100; /* Highest priority */
+}
+
+/* Dropdown Styles */
+.dropdown-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+.group:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0px);
+}
+
+/* Modern Loader Styles */
+#loader {
+  position: fixed;
+  inset: 0;
+  background: #050505;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.8s ease-in-out;
+}
+#loader-bar {
+  transition: width 0.1s linear;
+}
+
+/* Grid Background for Hero */
+.bg-grid {
+  background-size: 40px 40px;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    10%,
+    black,
+    90%,
+    transparent
+  );
+}
+
+/* Glitch Effect on Hover for Hero Text */
+.glitch-hover:hover {
+  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: #d4af37;
+}
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}

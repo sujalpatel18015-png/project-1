@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOUSE OF COFFEE</title>
+    <link rel="icon"
+        href="https://www.codewithfaraz.com/tools/placeholder?size=32x32&bgColor=d4af37&textColor=1a1a1a&text=AG"
+        type="image/png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        'obsidian': '#050505',
+                        'charcoal': '#1a1a1a',
+                        'gold-dust': '#d4af37',
+                        'cream': '#f3f3f3',
+                        'neon-grey': '#2a2a2a'
+                    },
+                    backgroundImage: {
+                        'noise': "url('https://grainy-gradients.vercel.app/noise.svg')",
+                        'grid-pattern': "linear-gradient(to right, #2a2a2a 1px, transparent 1px), linear-gradient(to bottom, #2a2a2a 1px, transparent 1px)",
+                    },
+                    animation: {
+                        'spin-slow': 'spin 12s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'marquee': 'marquee 25s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- GSAP for High-End Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="antialiased selection:bg-gold-dust selection:text-obsidian">
+
+    <!-- Loading Screen -->
+    <div id="loader" class="fixed inset-0 bg-obsidian z-[100] flex flex-col justify-center items-center">
+    <div class="text-center relative z-10 w-64">
+        <h1 class="font-display text-4xl font-bold tracking-tighter text-white mb-4">
+            
+            <span class="text-gold-dust">.</span>  HOUSE OF COFFEE
+        </h1>
+        <div class="flex justify-between text-xs font-mono text-gray-500 mb-2">
+            <span>ESTABLISHING UPLINK</span>
+            <span id="loader-percent">0%</span>
+        </div>
+        <div class="h-1 w-full bg-white/10 overflow-hidden">
+            <div id="loader-bar" class="h-full bg-gold-dust w-0"></div>
+        </div>
+        <div class="mt-2 text-right">
+            <span class="font-mono text-[10px] text-gray-600 animate-pulse">ENCRYPTING...</span>
+        </div>
+    </div>
+</div>
+
+<!-- Sticky Call Button -->
+<a href="tel:+12125550199" class="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[90] bg-gold-dust text-black w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(212,175,55,0.4)] animate-pulse-glow hover:bg-white transition-all duration-300 hover:scale-110 group" aria-label="Call Us">
+    <i class="ph ph-phone-call text-2xl md:text-3xl group-hover:rotate-12 transition-transform"></i>
+</a>
+
+<!-- Navbar -->
+<nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 pt-4 md:pt-6 px-4 md:px-8 pointer-events-none">
+    <!-- The "Island" Container -->
+    <div class="pointer-events-auto max-w-7xl mx-auto bg-obsidian/80 backdrop-blur-xl border border-white/10 rounded-full px-6 py-3 flex justify-between items-center shadow-2xl transition-all duration-300 hover:border-gold-dust/30" id="nav-container">
+
+        <!-- Left: Logo -->
+        <a href="index.html" class="group flex items-center gap-2">
+            <div class="w-2 h-2 bg-gold-dust rounded-full animate-pulse"></div>
+            <span class="font-display text-xl font-bold tracking-tighter text-white">SUJAL<span class="text-gray-500">.</span> </span>
+        </a>
+
+        <!-- Center: Desktop Links -->
+        <div class="hidden md:flex items-center space-x-10">
+            <a href="about.html" class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors">About</a>
+
+            <!-- Dropdown Trigger -->
+            <div class="relative group">
+                <button class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors flex items-center gap-1">
+                    Pages <i class="ph ph-caret-down"></i>
+                </button>
+                <!-- Dropdown Content
+                <div class="dropdown-menu absolute top-full left-1/2 -translate-x-1/2 mt-4 w-48 bg-obsidian border border-white/10 rounded-xl overflow-hidden p-2 shadow-xl">
+                    <a href="services.html" class="block px-4 py-2 text-xs text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors uppercase tracking-widest">Services</a>
+                    <a href="menu.html" class="block px-4 py-2 text-xs text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors uppercase tracking-widest">Menu</a>
+                    <a href="404.html" class="block px-4 py-2 text-xs text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors uppercase tracking-widest">404</a>
+                </div> -->
+            </div>
+
+            <a href="gallery.html" class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors">Gallery</a>
+            <a href="blogs.html" class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors">Blogs</a>
+        </div>
+
+        <!-- Right: Actions & Hamburger -->
+        <div class="flex items-center gap-4 md:gap-6">
+            <a href="contact.html" class="hidden md:flex items-center gap-2 text-xs font-bold font-sans uppercase tracking-widest text-gold-dust hover:text-white transition-colors">
+                <span>Contact</span>
+                <i class="ph ph-arrow-right"></i>
+            </a>
+
+            <button class="hamburger z-[70] flex flex-col justify-center items-end space-y-1.5 w-8 h-8 focus:outline-none group">
+                <span class="line line-1 block w-6 h-[2px] bg-white group-hover:bg-gold-dust"></span>
+                <span class="line line-2 block w-4 h-[2px] bg-white group-hover:bg-gold-dust group-hover:w-6 transition-all"></span>
+                <span class="line line-3 block w-6 h-[2px] bg-white group-hover:bg-gold-dust"></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Fullscreen Mobile Menu Overlay -->
+<div id="mobile-menu" class="fixed inset-0 bg-[#050505] transform translate-x-full transition-transform duration-500 ease-in-out flex flex-col items-center justify-center">
+    <!-- Close Button -->
+    <button id="close-menu-btn" class="absolute top-8 right-8 text-white p-4 focus:outline-none hover:text-gold-dust transition-colors z-[110]">
+        <i class="ph ph-x text-3xl"></i>
+    </button>
+
+    <!-- Background Decor -->
+    <div class="absolute inset-0 bg-grid-pattern bg-grid opacity-10"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-gold-dust/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="text-center space-y-6 relative z-10 w-full px-8">
+        <div class="overflow-hidden">
+            <a href="about.html" class="mobile-link block font-display text-5xl md:text-6xl font-black text-transparent text-stroke hover:text-white hover:text-stroke-0 transition-all duration-300 transform translate-y-full">ABOUT</a>
+        </div>
+
+        <!-- Mobile Dropdown Accordion -->
+        <div class="overflow-hidden">
+            <button id="mobile-menu-dropdown-btn" class="font-display text-5xl md:text-6xl font-black text-transparent text-stroke hover:text-white hover:text-stroke-0 transition-all duration-300 flex items-center justify-center gap-4 mx-auto w-full">
+                Pages <i class="ph ph-caret-down text-2xl text-gold-dust"></i>
+            </button>
+            <div id="mobile-menu-dropdown-content" class="hidden flex-col gap-4 mt-4 bg-white/5 p-6 rounded-2xl">
+                <a href="services.html" class="mobile-link block font-sans text-lg text-gray-300 hover:text-gold-dust uppercase tracking-widest">Services</a>
+                <a href="menu.html" class="mobile-link block font-sans text-lg text-gray-300 hover:text-gold-dust uppercase tracking-widest">Menu</a>
+                <a href="404.html" class="mobile-link block font-sans text-lg text-gray-300 hover:text-gold-dust uppercase tracking-widest">404</a>
+            </div>
+        </div>
+
+        <div class="overflow-hidden">
+            <a href="gallery.html" class="mobile-link block font-display text-5xl md:text-6xl font-black text-transparent text-stroke hover:text-white hover:text-stroke-0 transition-all duration-300 transform translate-y-full">GALLERY</a>
+        </div>
+        <div class="overflow-hidden">
+            <a href="contact.html" class="mobile-link block font-display text-5xl md:text-6xl font-black text-gold-dust transition-all duration-300 transform translate-y-full">CONTACT</a>
+        </div>
+    </div>
+
+    <!-- Bottom Info -->
+    <div class="absolute bottom-10 w-full text-center">
+        <p class="font-sans text-xs text-gray-500 tracking-widest uppercase">Est. 2026 • New York City</p>
+    </div>
+</div>
+
+<main>
+    <!-- Hero Section -->
+    <section class="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-obsidian py-32 md:py-40">
+
+        <!-- Video Background -->
+        <div class="absolute inset-0 z-0">
+            <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-40 scale-105">
+                <source src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/luxury-wedding-catering.mp4" type="video/mp4">
+                <img src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/birthday-party-catering.jpg" class="w-full h-full object-cover">
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-obsidian/80"></div>
+            <div class="absolute inset-0 bg-[url('../../noise.svg')] opacity-20 mix-blend-overlay"></div>
+            <div class="absolute inset-0 bg-grid-pattern bg-grid opacity-20"></div>
+        </div>
+          
+        <!-- Floating Data Elements (Desktop Only) -->  
+        <div class="absolute top-40 left-10 hidden xl:block animate-float" style="animation-delay: 1s;">
+            <div class="flex items-center gap-3 backdrop-blur-md bg-white/5 border border-white/10 px-4 py-2 rounded-lg">
+                <i class="ph ph-thermometer text-gold-dust"></i>
+                <div> 
+                    <p class="text-[10px] text-gray-400 uppercase tracking-wider">Precision</p>
+                    <p class="text-xs font-bold font-mono">98.4°C / Sous-Vide</p>
+                </div>
+            </div>
+        </div>
+  
+        <div class="absolute bottom-20 right-10 hidden xl:block animate-float">
+            <div class="flex items-center gap-3 backdrop-blur-md bg-white/5 border border-white/10 px-4 py-2 rounded-lg">
+                <i class="ph ph-timer text-gold-dust"></i>
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase tracking-wider">Time to Service</p>
+                    <p id="hero-timer" class="text-xs font-bold font-mono text-white">00:00:00</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Hero Content -->
+        <div class="relative z-10 container mx-auto px-6 grid grid-cols-12 items-center h-full">
+
+            <!-- Center Typography Stack -->
+            <div class="col-span-12 text-center relative">
+                <!-- Vertical Line -->
+                <div class="absolute -top-24 md:-top-32 left-1/2 w-[1px] h-24 md:h-32 bg-gold-dust/50"></div>
+
+                <div class="overflow-hidden">
+                    <p class="gsap-hero-reveal font-sans text-gold-dust tracking-[0.5em] md:tracking-[0.8em] text-[10px] md:text-sm uppercase mb-4 font-bold">
+                        // High Performance Catering
+                    </p>
+                </div>
+
+                <h1 class="relative font-display font-black leading-[0.9] tracking-tighter mb-8 w-full">
+                    <div class="overflow-hidden">
+                        <span class="gsap-hero-reveal block text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-transparent text-stroke hover:text-white transition-colors duration-500 cursor-default">
+                            HOUSE
+                        </span>
+                    </div>
+                    <div class="overflow-hidden">
+                        <span class="gsap-hero-reveal block text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-white mix-blend-difference glitch-hover cursor-default">
+                            OF COFFEE
+                        </span>
+                    </div>
+                </h1>
+
+                <div class="flex flex-col md:flex-row justify-center items-center gap-6 mt-12 overflow-hidden">
+                    <!-- Functional Begin Button -->
+                    <a href="#services" class="gsap-hero-reveal btn-magnetic group relative px-8 py-4 bg-transparent border border-white/30 overflow-hidden w-full md:w-auto inline-block text-center no-underline cursor-pointer">
+                        <span class="absolute inset-0 bg-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></span>
+                        <span class="relative font-sans font-bold tracking-widest text-xs uppercase text-white group-hover:text-black transition-colors duration-300 flex items-center justify-center gap-2">
+                            Begin Experience <i class="ph ph-arrow-down text-lg"></i>
+                        </span>
+                    </a>
+
+                    <div class="gsap-hero-reveal flex items-center gap-4 text-xs font-mono text-gray-400">
+                        <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                        LIVE KITCHEN FEED :: ONLINE
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-6 flex items-center gap-4 opacity-50 hidden sm:flex">
+            <div class="h-[1px] w-12 bg-white"></div>
+            <span class="text-[10px] uppercase tracking-widest font-sans">Scroll to Explore</span>
+        </div>
+    </section>
+
+    <!-- Section: About -->
+    <section id="about" class="py-24 md:py-32 bg-obsidian relative overflow-hidden border-t border-white/5">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-charcoal/30 -skew-x-12 hidden md:block"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+
+                <!-- Text Content -->
+                <div class="lg:col-span-5 space-y-8 trigger-section">
+                    <h2 class="font-display text-4xl md:text-6xl font-bold leading-tight">
+                        NOT JUST FOOD.<br>
+                        <span class="text-gold-dust">ENGINEERING.</span>
+                    </h2>
+                    <div class="w-20 h-1 bg-white"></div>
+                    <p class="font-sans text-gray-400 text-base md:text-lg leading-relaxed">
+                        We don't just cater events; we architect experiences. Drawing inspiration from high-fashion and athletic precision, our culinary team treats every plate as a performance.
+                    </p>
+                    <p class="font-sans text-gray-400 text-base md:text-lg leading-relaxed">
+                        Sustainable sourcing meets molecular gastronomy. Designed for those who demand excellence in every bite.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-8 pt-6 border-t border-white/10">
+                        <div>
+                            <h3 class="font-display text-4xl font-bold text-white counter" data-target="500">0</h3>
+                            <p class="text-xs tracking-widest text-gray-500 uppercase mt-1">Events Executed</p>
+                        </div>
+                        <div>
+                            <h3 class="font-display text-4xl font-bold text-white counter" data-target="24">0</h3>
+                            <p class="text-xs tracking-widest text-gray-500 uppercase mt-1">Awards Won</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Collage -->
+                <div class="lg:col-span-7 relative trigger-image">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-4 md:translate-y-12">
+                            <div class="img-zoom-container h-64 md:h-80 w-full rounded-none overflow-hidden transition-all duration-500 relative group">
+                                <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+                                <img src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/chef-plating.jpg" alt="Chef Plating" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-6 bg-charcoal border border-white/5 backdrop-blur-sm">
+                                <i class="ph ph-medal w-8 h-8 text-gold-dust text-3xl mb-4"></i>
+                                <h4 class="font-display text-xl font-bold mb-2">Michelin Standard</h4>
+                                <p class="text-sm text-gray-400">Our head chefs bring starred experience to your venue.</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4 md:-translate-y-12 mt-4 md:mt-0">
+                            <div class="p-6 bg-charcoal border border-white/5 md:text-right backdrop-blur-sm">
+                                <i class="ph ph-plant w-8 h-8 text-gold-dust text-3xl mb-4 md:ml-auto"></i>
+                                <h4 class="font-display text-xl font-bold mb-2">100% Organic</h4>
+                                <p class="text-sm text-gray-400">Locally sourced, globally inspired ingredients.</p>
+                            </div>
+                            <div class="img-zoom-container h-80 w-full rounded-none overflow-hidden transition-all duration-500 relative group">
+                                <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+                                <img src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/fresh-organic-vegetables.jpg" alt="Fresh Ingredients" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Process -->
+    <section class="py-24 bg-obsidian relative border-t border-white/5">
+         <div class="container mx-auto px-6 md:px-12">
+            <div class="mb-16">
+                <span class="text-gold-dust font-sans text-xs tracking-[0.3em] uppercase block mb-4">How We Work</span>
+                <h2 class="font-display text-4xl md:text-6xl font-bold text-white">OUR PROCESS</h2>
+            </div>
+
+            <div class="relative">
+                <!-- Vertical Line -->
+                <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-white/10"></div>
+
+                <!-- Step 1 -->
+                <div class="blueprint-step relative flex flex-col md:flex-row items-center justify-between mb-24 group">
+                    <div class="order-2 md:order-1 md:w-[45%] p-6 text-left md:text-right">
+                        <h3 class="font-display text-3xl text-white mb-4">Consultation</h3>
+                        <p class="text-gray-400 font-sans text-sm leading-relaxed">We dismantle your vision and rebuild it using our culinary architecture. Every dietary requirement is a parameter, every theme a challenge.</p>
+                    </div>
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 bg-obsidian border-2 border-gold-dust rounded-full z-10 shadow-[0_0_15px_rgba(212,175,55,0.5)]"></div>
+                    <div class="order-3 md:order-2 md:w-[45%] pl-12 md:pl-0">
+                        <span class="font-display text-6xl text-white/5 font-black group-hover:text-white/10 transition-colors">01</span>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="blueprint-step relative flex flex-col md:flex-row items-center justify-between mb-24 group">
+                    <div class="order-2 md:order-2 md:w-[45%] p-6 text-left">
+                        <h3 class="font-display text-3xl text-white mb-4">Design</h3>
+                        <p class="text-gray-400 font-sans text-sm leading-relaxed">Menus are drafted like blueprints. Flavors are balanced with mathematical precision. We prototype dishes in our test kitchen.</p>
+                    </div>
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 bg-obsidian border-2 border-gold-dust rounded-full z-10 shadow-[0_0_15px_rgba(212,175,55,0.5)]"></div>
+                    <div class="order-3 md:order-1 md:w-[45%] text-left md:text-right pl-12 md:pl-0">
+                        <span class="font-display text-6xl text-white/5 font-black group-hover:text-white/10 transition-colors">02</span>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="blueprint-step relative flex flex-col md:flex-row items-center justify-between group">
+                    <div class="order-2 md:order-1 md:w-[45%] p-6 text-left md:text-right">
+                        <h3 class="font-display text-3xl text-white mb-4">Execution</h3>
+                        <p class="text-gray-400 font-sans text-sm leading-relaxed">On site, we operate with military efficiency. White glove service meets high-octane kitchen performance.</p>
+                    </div>
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 bg-obsidian border-2 border-gold-dust rounded-full z-10 shadow-[0_0_15px_rgba(212,175,55,0.5)]"></div>
+                    <div class="order-3 md:order-2 md:w-[45%] pl-12 md:pl-0">
+                        <span class="font-display text-6xl text-white/5 font-black group-hover:text-white/10 transition-colors">03</span>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </section>
+
+    <!-- Section: The Chefs -->
+    <section class="py-24 bg-[#0a0a0a] border-t border-white/5">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                 <div>
+                    <span class="text-gold-dust font-sans text-xs tracking-[0.3em] uppercase block mb-4">The Team</span>
+                    <h2 class="font-display text-4xl md:text-6xl font-bold text-white">OUR CHEFS</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Chef 1 -->
+                <div class="group relative overflow-hidden h-[500px]">
+                    <img src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/marcus-thorne.jpg" class="w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <p class="text-gold-dust text-xs font-bold tracking-widest uppercase mb-2">Executive Chef</p>
+                        <h3 class="text-white font-display text-3xl font-bold mb-4">Marcus Thorne</h3>
+                        <p class="text-gray-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-xs">
+                            Formerly of Noma and Alinea. Marcus treats ingredients as structural elements.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Chef 2 -->
+                <div class="group relative overflow-hidden h-[500px]">
+                    <img src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/elena-vossen.jpg" class="w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <p class="text-gold-dust text-xs font-bold tracking-widest uppercase mb-2">Head of Pastry</p>
+                        <h3 class="text-white font-display text-3xl font-bold mb-4">Elena Vossen</h3>
+                        <p class="text-gray-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-xs">
+                            Specializing in architectural chocolate and nitrogen-frozen confections.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Chef 3 -->
+                <div class="group relative overflow-hidden h-[500px]">
+                    <img src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/julian-reed.jpg" class="w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <p class="text-gold-dust text-xs font-bold tracking-widest uppercase mb-2">Beverage Director</p>
+                        <h3 class="text-white font-display text-3xl font-bold mb-4">Julian Reed</h3>
+                        <p class="text-gray-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-xs">
+                            Curator of rare vintages and designer of the molecular cocktail program.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee Section (Venues) -->
+    <section class="py-16 bg-cream border-y border-black overflow-hidden relative">
+         <div class="container mx-auto px-6 mb-8 text-center">
+             <h3 class="font-sans font-bold text-sm tracking-[0.3em] uppercase text-gray-500">Curated Venues</h3>
+         </div>
+         <!-- Wrapper for Marquee -->
+         <div class="relative w-full overflow-hidden flex">
+             <div class="flex whitespace-nowrap animate-marquee">
+                 <!-- Duplicated content to ensure seamless loop -->
+                 <span class="mx-12 font-display text-4xl md:text-5xl font-bold text-obsidian/30 uppercase">The Plaza Hotel</span>
+                 <span class="mx-12 font-display text-4xl md:text-5xl font-bold text-obsidian/30 uppercase">Tribeca Rooftop</span>
+                 <span class="mx-12 font-display text-4xl md:text-5xl font-bold text-obsidian/30 uppercase">Glasshouse Chelsea</span>
+                 <span class="mx-12 font-display text-4xl md:text-5xl font-bold text-obsidian/30 uppercase">The Pierre</span>
+                 <span class="mx-12 font-display text-4xl md:text-5xl font-bold text-obsidian/30 uppercase">Gotham Hall</span>
+                 <span class="mx-12 font-display text-4xl md:text-5xl font-bold text-obsidian/30 uppercase">The Plaza Hotel</span>
+                 <span class="mx-12 font-display text-4xl md:text-5xl font-bold text-obsidian/30 uppercase">Tribeca Rooftop</span>
+                 <span class="mx-12 font-display text-4xl md:text-5xl font-bold text-obsidian/30 uppercase">Glasshouse Chelsea</span>
+                 <span class="mx-12 font-display text-4xl md:text-5xl font-bold text-obsidian/30 uppercase">The Pierre</span>
+                 <span class="mx-12 font-display text-4xl md:text-5xl font-bold text-obsidian/30 uppercase">Gotham Hall</span>
+             </div>
+         </div>
+    </section>
+
+    <!-- Section: Services -->
+    <section id="services" class="py-24 bg-cream text-obsidian relative z-20">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                <div class="mb-8 md:mb-0">
+                    <span class="block font-sans font-bold text-sm tracking-[0.3em] text-gray-500 mb-2 uppercase">Curated Collections</span>
+                    <h2 class="font-display text-5xl md:text-7xl font-black text-obsidian tracking-tighter">OUR SERVICES</h2>
+                </div>
+                <a href="services.html" class="flex items-center gap-2 border-b border-obsidian pb-1 font-bold hover:opacity-70 transition-opacity">
+                    Download Full PDF <i class="ph ph-arrow-up-right"></i>
+                </a>
+            </div>
+
+            <!-- Menu Categories -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-gray-300">
+
+                <!-- Item 1 -->
+                <div class="menu-card group border-b md:border-b-0 md:border-r border-gray-300 p-8 lg:p-12 hover:bg-obsidian hover:text-white transition-colors duration-500 relative overflow-hidden cursor-pointer h-[400px] md:h-[500px]">
+                    <div class="absolute inset-0 bg-[url('https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/corporate-catering-setup.jpg')] opacity-0 group-hover:opacity-20 bg-cover bg-center transition-opacity duration-500"></div>
+                    <div class="relative z-10 flex flex-col h-full justify-between">
+                        <div class="flex justify-between items-start">
+                            <span class="font-sans text-xs font-bold border border-current px-2 py-1 rounded-full">01</span>
+                            <i class="ph ph-arrow-right text-2xl transform -rotate-45 group-hover:rotate-0 transition-transform duration-300"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-display text-3xl md:text-4xl font-bold mb-4">Corporate<br>Precision</h3>
+                            <p class="font-sans text-sm opacity-70 group-hover:opacity-90 max-w-xs">
+                                Boxed lunches redefined. Boardroom dinners that impress. Efficiency meets gourmet.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="menu-card group border-b md:border-b-0 md:border-r border-gray-300 p-8 lg:p-12 hover:bg-obsidian hover:text-white transition-colors duration-500 relative overflow-hidden cursor-pointer h-[400px] md:h-[500px]">
+                    <div class="absolute inset-0 bg-[url('https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/luxury-wedding-catering.jpg')] opacity-0 group-hover:opacity-20 bg-cover bg-center transition-opacity duration-500"></div>
+                    <div class="relative z-10 flex flex-col h-full justify-between">
+                        <div class="flex justify-between items-start">
+                            <span class="font-sans text-xs font-bold border border-current px-2 py-1 rounded-full">02</span>
+                            <i class="ph ph-arrow-right text-2xl transform -rotate-45 group-hover:rotate-0 transition-transform duration-300"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-display text-3xl md:text-4xl font-bold mb-4">Wedding<br>Avant-Garde</h3>
+                            <p class="font-sans text-sm opacity-70 group-hover:opacity-90 max-w-xs">
+                                Forget the chicken or beef. Think interactive food stations, molecular cocktails, and edible art.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="menu-card group border-gray-300 p-8 lg:p-12 hover:bg-obsidian hover:text-white transition-colors duration-500 relative overflow-hidden cursor-pointer h-[400px] md:h-[500px]">
+                    <div class="absolute inset-0 bg-[url('https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/private-event-catering.jpg')] opacity-0 group-hover:opacity-20 bg-cover bg-center transition-opacity duration-500"></div>
+                    <div class="relative z-10 flex flex-col h-full justify-between">
+                        <div class="flex justify-between items-start">
+                            <span class="font-sans text-xs font-bold border border-current px-2 py-1 rounded-full">03</span>
+                            <i class="ph ph-arrow-right text-2xl transform -rotate-45 group-hover:rotate-0 transition-transform duration-300"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-display text-3xl md:text-4xl font-bold mb-4">Private<br>Commission</h3>
+                            <p class="font-sans text-sm opacity-70 group-hover:opacity-90 max-w-xs">
+                                Bespoke menus designed entirely around your palate, theme, or nutritional goals.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Testimonials -->
+    <section class="py-24 bg-obsidian text-white relative">
+        <div class="container mx-auto px-6">
+            <div class="border border-white/10 p-8 md:p-16 relative bg-white/5 backdrop-blur-sm rounded-2xl">
+                <i class="ph ph-quotes text-6xl text-gold-dust absolute top-8 left-8 opacity-20"></i>
+
+                <div class="max-w-4xl mx-auto text-center" id="testimonial-container">
+                    <p class="font-display text-2xl md:text-4xl font-bold leading-normal mb-8 transition-opacity duration-300" id="testimonial-quote">
+                        "Avant Garde didn't just cater our gala; they curated an edible art exhibition. The nitrogen-frozen mousse station was the highlight of the year."
+                    </p>
+                    <div class="flex flex-col items-center gap-2 transition-opacity duration-300" id="testimonial-author">
+                        <span class="font-sans font-bold text-gold-dust tracking-widest uppercase text-sm" id="testimonial-name">Alexandra V.</span>
+                        <span class="font-sans text-gray-500 text-xs uppercase" id="testimonial-role">Director, Met Gala Afterparty</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-center gap-4 mt-12">
+                    <button onclick="prevTestimonial()" class="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center hover:bg-gold-dust hover:text-black hover:border-gold-dust transition-all group">
+                        <i class="ph ph-arrow-left text-xl group-hover:-translate-x-1 transition-transform"></i>
+                    </button>
+                    <button onclick="nextTestimonial()" class="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center hover:bg-gold-dust hover:text-black hover:border-gold-dust transition-all group">
+                        <i class="ph ph-arrow-right text-xl group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Gallery -->
+    <section id="gallery" class="py-24 bg-[#0a0a0a] overflow-hidden">
+        <div class="container mx-auto px-6 mb-12">
+            <h2 class="font-display text-3xl md:text-4xl font-bold text-white"><span class="text-gold-dust">//</span> GALLERY</h2>
+        </div>
+
+        <div class="flex flex-col gap-16 md:gap-32">
+            <!-- Dish 1 -->
+            <div class="dish-row grid grid-cols-1 md:grid-cols-2 gap-0 items-center">
+                <div class="order-2 md:order-1 h-[50vh] md:h-[60vh] w-full overflow-hidden relative">
+                    <img src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/a5-wagyu-beef.jpg"
+                         class="w-full h-full object-cover" alt="Dish 1">
+                </div>
+                <div class="order-1 md:order-2 p-8 md:p-24 bg-[#050505]">
+                    <h3 class="text-gold-dust font-sans text-xs tracking-[0.4em] uppercase mb-4">Signature Series</h3>
+                    <h4 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">Wagyu & Charcoal</h4>
+                    <p class="text-gray-400 leading-relaxed font-sans mb-8">
+                        A study in contrast. A5 Wagyu beef seared over binchotan charcoal, accompanied by a truffle reduction.
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <div class="h-[1px] w-12 bg-white"></div>
+                        <span class="text-white font-mono text-sm">Course 04</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dish 2 -->
+            <div class="dish-row grid grid-cols-1 md:grid-cols-2 gap-0 items-center">
+                <div class="order-1 p-8 md:p-24 bg-[#050505] md:text-right">
+                    <h3 class="text-gold-dust font-sans text-xs tracking-[0.4em] uppercase mb-4">The Ocean</h3>
+                    <h4 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">Scallop & Saffron</h4>
+                    <p class="text-gray-400 leading-relaxed font-sans mb-8">
+                        Hand-dived scallops, saffron foam, caviar pearls. A minimalist approach maximizing the natural salinity.
+                    </p>
+                    <div class="flex items-center gap-4 md:justify-end">
+                        <span class="text-white font-mono text-sm">Course 02</span>
+                        <div class="h-[1px] w-12 bg-white"></div>
+                    </div>
+                </div>
+                <div class="order-2 h-[50vh] md:h-[60vh] w-full overflow-hidden relative">
+                    <img src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/hand-dived-scallops.jpg"
+                         class="w-full h-full object-cover" alt="Dish 2">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Blogs -->
+    <section id="blogs" class="py-24 bg-obsidian border-t border-white/5">
+        <div class="container mx-auto px-6">
+             <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                 <div>
+                    <span class="text-gold-dust font-sans text-xs tracking-[0.3em] uppercase block mb-4">Culinary Insights</span>
+                    <h2 class="font-display text-4xl md:text-6xl font-bold text-white">LATEST NEWS</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Blog Post 1 -->
+                <div class="group cursor-pointer">
+                    <div class="h-64 overflow-hidden mb-6 relative">
+                         <img src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/future-of-molecular-gastronomy.jpg" class="w-full h-full object-cover">
+                         <div class="absolute top-4 left-4 bg-gold-dust text-black text-xs font-bold px-3 py-1 uppercase tracking-wider">Oct 24</div>
+                    </div>
+                    <h3 class="text-white font-display text-2xl font-bold mb-3 group-hover:text-gold-dust transition-colors">The Future of Molecular Gastronomy</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">Exploring how science is redefining texture and flavor in modern high-end catering events.</p>
+                    <a href="blog-detail.html" class="inline-flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest hover:text-gold-dust transition-colors">
+                        Read Article <i class="ph ph-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Blog Post 2 -->
+                <div class="group cursor-pointer">
+                    <div class="h-64 overflow-hidden mb-6 relative">
+                         <img src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/sustainable-luxury-sourcing.jpg" class="w-full h-full object-cover">
+                         <div class="absolute top-4 left-4 bg-gold-dust text-black text-xs font-bold px-3 py-1 uppercase tracking-wider">Nov 02</div>
+                    </div>
+                    <h3 class="text-white font-display text-2xl font-bold mb-3 group-hover:text-gold-dust transition-colors">Sustainable Luxury Sourcing</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">Why local, organic ingredients are becoming the new gold standard for premium weddings.</p>
+                    <a href="blog-detail.html" class="inline-flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest hover:text-gold-dust transition-colors">
+                        Read Article <i class="ph ph-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Blog Post 3 -->
+                <div class="group cursor-pointer">
+                    <div class="h-64 overflow-hidden mb-6 relative">
+                         <img src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/Avant%20Catering%20Services%20Website%20Template/designing-the-perfect-menu.jpg" class="w-full h-full object-cover">
+                         <div class="absolute top-4 left-4 bg-gold-dust text-black text-xs font-bold px-3 py-1 uppercase tracking-wider">Nov 15</div>
+                    </div>
+                    <h3 class="text-white font-display text-2xl font-bold mb-3 group-hover:text-gold-dust transition-colors">Designing the Perfect Menu</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">A behind-the-scenes look at how our chefs architect a 7-course tasting menu for 500 guests.</p>
+                    <a href="blog-detail.html" class="inline-flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest hover:text-gold-dust transition-colors">
+                        Read Article <i class="ph ph-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer id="contact" class="bg-black pt-24 pb-12 border-t border-white/10 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-5 pointer-events-none">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5"/>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-24">
+            <div class="md:col-span-5">
+                <h2 class="font-display text-5xl md:text-6xl font-bold text-white mb-6 leading-none">
+                    READY TO<br>ELEVATE?
+                </h2>
+                <p class="text-gray-400 font-sans mb-8 max-w-md">
+                    Our calendar fills quickly. Secure your date for an uncompromising culinary experience.
+                </p>
+
+                <form class="flex flex-col sm:flex-row gap-4">
+                    <input type="email" placeholder="ENTER YOUR EMAIL" class="bg-white/5 border border-white/20 text-white px-6 py-4 outline-none focus:border-gold-dust focus:bg-white/10 transition-all w-full font-sans tracking-widest text-xs uppercase placeholder-gray-500">
+                    <button type="button" class="bg-gold-dust text-black px-8 py-4 font-bold tracking-widest uppercase hover:bg-white transition-colors">
+                        Inquire
+                    </button>
+                </form>
+            </div>
+
+            <div class="md:col-span-1"></div>
+
+            <div class="md:col-span-6 grid grid-cols-2 md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-white font-bold font-display uppercase tracking-wider mb-6">Sitemap</h4>
+                    <ul class="space-y-4 font-sans text-sm text-gray-500">
+                        <li><a href="index.html" class="hover:text-gold-dust transition-colors">Home</a></li>
+                        <li><a href="about.html" class="hover:text-gold-dust transition-colors">About</a></li>
+                        <li><a href="services.html" class="hover:text-gold-dust transition-colors">Services</a></li>
+                        <li><a href="gallery.html" class="hover:text-gold-dust transition-colors">Gallery</a></li>
+                        <li><a href="blogs.html" class="hover:text-gold-dust transition-colors">Blogs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold font-display uppercase tracking-wider mb-6">Social</h4>
+                    <ul class="space-y-4 font-sans text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-gold-dust transition-colors">Instagram</a></li>
+                        <li><a href="#" class="hover:text-gold-dust transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-gold-dust transition-colors">Behance</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold font-display uppercase tracking-wider mb-6">Contact</h4>
+                    <ul class="space-y-4 font-sans text-sm text-gray-500">
+                        <li>New York, NY</li>
+                        <li>(91) 87800 51157</li>
+                        <li>SUJAL123@gmali.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-white/10 pt-12 flex flex-col items-center">
+            <h3 class="font-display text-[12vw] md:text-[14vw] font-black leading-none text-white/5 tracking-tighter select-none pointer-events-none">
+                AVANTGARDE
+            </h3>
+
+            
+            
+        </div>
+    </div>
+</footer>
+
+    <!-- JavaScript Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
